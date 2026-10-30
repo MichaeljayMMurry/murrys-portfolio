@@ -1067,15 +1067,13 @@ $('#top').innerHTML=`
 <div class="contact-layout"><div class="message-panel">
   <p class="message-kicker">Start a conversation</p>
   <h3>Let's build something.</h3>
-  <p class="message-intro">Have a project, an internship opportunity, or an idea? Send me a message here.</p>
-  <form class="message-form" id="message-form" action="https://shipmyform.com/to/${S.email}" method="POST">
-    <div><label for="sender-name">Your name</label><input id="sender-name" name="name" autocomplete="name" placeholder="Your name" required maxlength="80"></div>
-    <div><label for="sender-email">Email address</label><input id="sender-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required maxlength="254"></div>
+  <p class="message-intro">Have a project, an internship opportunity, or an idea? Write your message, then send it from your own email app.</p>
+  <form class="message-form" id="message-form" action="mailto:${S.email}" method="GET">
+    <div><label for="sender-name">Your name (optional)</label><input id="sender-name" name="name" autocomplete="name" placeholder="Your name" maxlength="80"></div>
     <div><label for="message-subject">Subject</label><input id="message-subject" name="subject" placeholder="A project, an opportunity, or a hello" required maxlength="160"></div>
     <div><label for="message-body">Your message</label><textarea id="message-body" name="message" placeholder="Tell me about your idea, goals, or timeline…" required minlength="10" maxlength="5000" rows="5"></textarea></div>
-    <div class="form-honey" aria-hidden="true"><label for="contact-website">Leave this blank</label><input id="contact-website" name="_gotcha" tabindex="-1" autocomplete="off"></div>
-    <button class="btn fill" type="submit" id="send-message">Send message ↗</button>
-    <p class="form-status" id="message-status" role="status" aria-live="polite">Write to me here. No sign-in needed.</p>
+    <button class="btn fill" type="submit" id="send-message">Open email app ↗</button>
+    <p class="form-status" id="message-status" role="status" aria-live="polite">Opens a draft in your email app. Review it and press Send there.</p>
     <a class="copy-email" href="mailto:${S.email}">Email me directly ↗</a>
   </form>
 </div>
@@ -1086,7 +1084,7 @@ $('#top').innerHTML=`
       ${['Facebook','Instagram','Contact'].map(platform=>`<div class="contact-group">
         <h4>${platform==='Contact'?'Get in touch':platform}</h4>
         <div class="contact-buttons">
-          ${platform==='Contact'?`<a class="contact-link" href="#message-form" aria-label="Gmail: send a message">${contactIcon('mail')}<span>Gmail</span></a>`:''}
+          ${platform==='Contact'?`<a class="contact-link" href="mailto:${S.email}" aria-label="Email Murry using your email app">${contactIcon('mail')}<span>Email me</span></a>`:''}
           ${soc.filter(s=>s.platform===platform).map(s=>`<a class="contact-link" href="${s.url}" target="_blank" rel="noopener noreferrer" aria-label="${s.platform==='Contact'?'':s.platform+' '}${s.label}">${contactIcon(s.icon)}<span>${s.label}</span></a>`).join('')}
         </div>
       </div>`).join('')}
@@ -1298,71 +1296,37 @@ copyEmail.addEventListener('click',async()=>{
   }
 });
 
-// ShipMyForm's instant endpoint uses the public recipient email, with no API key.
-// The owner enables inbox notifications through the first activation email.
+// Prepare a draft in the visitor's email app; the visitor sends it there.
 const messageForm=document.getElementById('message-form');
 const messageStatus=document.getElementById('message-status');
-const sendMessageButton=document.getElementById('send-message');
-const messageIdleText='Write to me here. No sign-in needed.';
-const messageButtonText='Send message ↗';
+const messageIdleText='Opens a draft in your email app. Review it and press Send there.';
 const setMessageStatus=(state,message)=>{
   messageStatus.dataset.state=state;
   messageStatus.textContent=message;
   messageStatus.setAttribute('role',state==='error'?'alert':'status');
 };
 messageForm.addEventListener('input',()=>{
-  if(messageStatus.dataset.state&&messageStatus.dataset.state!=='sending'){
+  if(messageStatus.dataset.state){
     setMessageStatus('idle',messageIdleText);
   }
 });
-messageForm.addEventListener('submit',async e=>{
+messageForm.addEventListener('submit',e=>{
   e.preventDefault();
-  if(!messageForm.reportValidity()||sendMessageButton.disabled)return;
-  if(location.protocol==='file:'){
-    setMessageStatus('error','Please open the hosted portfolio to send your message.');return;
-  }
+  if(!messageForm.reportValidity())return;
   const formData=new FormData(messageForm);
-  if(String(formData.get('_gotcha')||'').trim())return;
   const name=String(formData.get('name')||'').trim();
-  const email=String(formData.get('email')||'').trim();
-  const subject=String(formData.get('subject')||'').trim();
+  const subject=String(formData.get('subject')||'').replace(/[\r\n]+/g,' ').trim();
   const message=String(formData.get('message')||'').trim();
-  if(!name||!email||!subject||message.length<10){
-    setMessageStatus('error','Please complete all fields and write a message of at least 10 characters.');return;
+  if(!subject||message.length<10){
+    setMessageStatus('error','Please add a subject and write a message of at least 10 characters.');return;
   }
-  sendMessageButton.disabled=true;
-  messageForm.setAttribute('aria-busy','true');
-  sendMessageButton.textContent='Sending…';
-  setMessageStatus('sending','Sending your message…');
-  const controller=new AbortController();
-  const timeout=setTimeout(()=>controller.abort(),20000);
+  const body=message+(name?'\r\n\r\nFrom: '+name:'');
+  const emailLink='mailto:'+S.email+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
   try{
-    formData.set('name',name);
-    formData.set('email',email);
-    formData.set('subject',subject);
-    formData.set('message',message);
-    formData.set('_subject',"Murry's Portfolio: "+subject);
-    formData.set('_replyto',email);
-    const response=await fetch(messageForm.action,{
-      method:'POST',credentials:'omit',headers:{'Accept':'application/json'},signal:controller.signal,
-      body:formData
-    });
-    const result=await response.json();
-    if(response.ok&&result.ok===true){
-      setMessageStatus('success','Thank you. Your message has been submitted.');
-      messageForm.reset();
-    }else{
-      console.error('Portfolio email delivery rejected',{status:response.status,message:result.message});
-      throw new Error('Email delivery was not confirmed');
-    }
-  }catch(error){
-    console.error('Portfolio email delivery failed',error);
-    setMessageStatus('error',error.name==='AbortError'?'Sending took too long. Delivery could not be confirmed. Please email me directly below.':'Your message could not be sent. Please try again, or email me directly below.');
-  }finally{
-    clearTimeout(timeout);
-    sendMessageButton.disabled=false;
-    messageForm.removeAttribute('aria-busy');
-    sendMessageButton.textContent=messageButtonText;
+    window.location.href=emailLink;
+    setMessageStatus('pending','Review the draft in your email app and press Send. If it did not open, copy my email address and your message into your email app.');
+  }catch{
+    setMessageStatus('error','Please copy my email address and your message into your email app to send it.');
   }
 });
 
