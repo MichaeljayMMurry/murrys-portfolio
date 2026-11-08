@@ -508,6 +508,10 @@ footer{font-size:11px;padding-top:26px;color:var(--muted)}
 .resume-download{display:inline-flex;align-items:center;min-height:44px;color:var(--muted);font-size:12px;text-underline-offset:4px}
 .resume-download:hover{color:var(--ink)}
 @media(max-width:680px){.resume-actions{gap:12px}.resume-actions .btn{font-size:11px;padding:12px 16px}.resume-download{font-size:11px}}
+.project-photos .project-shot img{height:auto;aspect-ratio:16/9}
+@media(max-width:600px){.project-photos .project-shot:first-child{grid-column:1/-1}}
+.project-photo-label{display:block;margin-bottom:2px;color:var(--ink)}
+.project-play-note{margin:18px 0 0;padding:12px 14px;border-left:3px solid var(--accent);background:var(--soft);color:var(--ink)}
 </style>
 <meta name="description" content="Murry's portfolio — BSIT student, web developer, and aspiring game developer. Explore projects, certifications, and creative work.">
 <meta name="theme-color" content="#0b0d10">
@@ -691,60 +695,115 @@ const SITE = {
   },
   "projects": [
     {
-      "title": "3D Space Combat",
-      "summary": "A real-time space battle game for mobile · Working title",
-      "upcoming": true,
-      "statusLabel": "In development · Coming soon",
+      "title": "STARFIGHTERS",
+      "summary": "3D space battles · Windows browser and Android",
+      "statusLabel": "Newest game",
       "paragraphs": [
-        "An upcoming Unity game built around commanding a capital ship in real-time space battles. A high, top-down camera follows the action while keeping the ships and battlefield in view.",
-        "The concept combines deliberate ship movement, targeted weapons, fighter squadrons, and customizable battles against AI opponents. It is being developed as a single-player mobile experience in landscape orientation."
+        "Take command of a warship, launch fighters and bombers, and battle enemy fleets."
       ],
       "gameInfo": {
-        "genre": "3D Space Combat / Tactical Action",
+        "mode": "Single player",
+        "platform": "Windows browser and Android"
+      },
+      "playNote": "Detailed ships and large battles can run slower on Android.",
+      "imageHeading": "Featured photos",
+      "screenshots": [
+        {
+          "image": "assets/starfighters/capital-wreckage-preview.png",
+          "alt": "Ship wreckage after a crash",
+          "label": "Star Wars reference"
+        },
+        {
+          "image": "assets/starfighters/polished-battle-preview.png",
+          "alt": "A fleet battle in the game",
+          "label": "Gameplay"
+        },
+        {
+          "image": "assets/starfighters/demo-menu-sketch.jpg",
+          "alt": "My sketch of the game menu and Demo button",
+          "label": "Demo drawing"
+        },
+        {
+          "image": "assets/starfighters/venator-hangar-2.6.png",
+          "alt": "The Venator hangar open and closed",
+          "label": "Star Wars reference"
+        },
+        {
+          "image": "assets/starfighters/starfighters-carrier-refit.png",
+          "alt": "Launch bays on both ships",
+          "label": "Star Wars reference"
+        },
+        {
+          "image": "assets/starfighters/recessed-capital-preview.png",
+          "alt": "Gun mounts on both ships",
+          "label": "Star Wars reference"
+        }
+      ],
+      "extra": [
+        {
+          "label": "Open STARFIGHTERS",
+          "url": "https://michaeljaymmurry.github.io/starfighters01/"
+        }
+      ]
+    },
+    {
+      "title": "3D Space Combat",
+      "summary": "A space battle game planned for mobile",
+      "upcoming": true,
+      "statusLabel": "In development",
+      "paragraphs": [
+        "Command a large ship in a space battle. The camera follows the action from above.",
+        "The plan is to let you launch fighters and set up your own battles against the computer."
+      ],
+      "gameInfo": {
+        "genre": "3D space combat",
         "engine": "Unity · C#",
-        "plannedPlatform": "Mobile · Landscape",
-        "plannedMode": "Single player with AI allies and opponents",
-        "status": "In development · Not yet released",
+        "plannedPlatform": "Mobile, played sideways",
+        "plannedMode": "Single player with computer allies and enemies",
+        "status": "In development",
         "releaseDate": "To be announced"
       },
       "points": [
-        "Planned: joystick ship controls with slow, weighty turning for capital ships.",
-        "Planned: target selection, manual weapon firing, visible cooldowns, and projectile travel time.",
-        "Planned: launch fighter squadrons and assign attack or escort orders.",
-        "Planned: customizable team battles with AI-controlled allied and enemy ships.",
-        "Planned: ship damage, destructible weapon systems, and gradual repairs.",
-        "Planned: transfer control to a surviving allied ship when the player's ship is destroyed."
+        "Steer a large ship with a joystick.",
+        "Pick a target, fire your weapons, and watch their reload times.",
+        "Send fighter groups to attack or protect your ship.",
+        "Set up team battles against the computer.",
+        "Repair damage to your ship and its weapons.",
+        "Take control of a friendly ship if yours is destroyed."
       ],
-      "tags": ["Unity", "C#", "3D", "Mobile Game", "In Development"],
+      "tags": [
+        "Unity",
+        "C#",
+        "3D",
+        "Mobile Game",
+        "In Development"
+      ],
       "extra": []
     },
     {
       "title": "STELLAR SIEGE",
       "url": "",
       "image": "",
-      "description": "Survive wave after wave of relentless enemies in this thrilling battle for survival!\n\nPrepare yourself for Stellar Siege, the ultimate test of strategy and resilience. Dive into a high-stakes battle arena where each wave brings stronger and more numerous foes. With only 50 life points to defend, every decision counts. Harness your skills, outsmart your enemies, and endure the chaos to become the ultimate survivor. The enemies won't stop coming. Can you stand your ground and rise victorious?",
       "gameInfo": {
-        "genre": "2D Space Shooter / Survival",
+        "genre": "2D space shooter",
         "engine": "Unity",
         "platform": "Android",
         "mode": "Single Player",
-        "developer": "Independent Game Developer",
-        "status": "Developed Project"
+        "developer": "Murry",
+        "status": "Built"
       },
       "extra": [
         {
-          "label": "Watch Gameplay on YouTube",
+          "label": "Watch gameplay",
           "url": "https://www.youtube.com/watch?v=jVkjYYzrROQ"
         },
         {
-          "label": "More Information",
+          "label": "Read more",
           "url": "https://dudecheckoutthisnniiggaagame.blogspot.com/2024/12/project-webpage-blogsite.html"
         }
       ],
       "points": [
-        "A 2D space survival shooter developed using Unity.",
-        "Features space combat and survival gameplay.",
-        "Built using Unity and C#."
+        "Built with Unity and C#."
       ],
       "tags": [
         "Unity",
@@ -755,27 +814,25 @@ const SITE = {
       ],
       "summary": "2D space survival shooter",
       "paragraphs": [
-        "Survive wave after wave of relentless enemies in this thrilling battle for survival!",
-        "Prepare yourself for Stellar Siege, the ultimate test of strategy and resilience. Dive into a high-stakes battle arena where each wave brings stronger and more numerous foes. With only 50 life points to defend, every decision counts. Harness your skills, outsmart your enemies, and endure the chaos to become the ultimate survivor. The enemies won't stop coming. Can you stand your ground and rise victorious?"
+        "Fight off waves of enemies in a 2D space shooter. You start with 50 health, and each wave gets harder."
       ]
     },
     {
       "title": "Game Collection",
-      "summary": "Mobile app · Unhosted",
+      "summary": "Mobile app for tracking your games",
       "paragraphs": [
-        "Game Collection is a mobile app for organizing a personal game library. It brings game covers, platforms, genres, play status, ratings, and notes together in one place.",
-        "Users can add and edit game entries, keep track of games they are playing, have completed, or have in their backlog, and personalize their profile picture."
+        "Keep your games in one place and track what you’re playing, what you’ve finished, and what you want to play next."
       ],
       "appInfo": {
         "type": "Mobile app",
         "purpose": "Personal game library",
-        "availability": "Unhosted"
+        "availability": "Not available online"
       },
       "points": [
-        "Add, edit, and delete game entries with cover images.",
-        "Assign multiple platforms and genres to a game.",
-        "Track play status, optional ratings from 1 to 10, and personal notes.",
-        "Customize the profile picture."
+        "Add, edit, or remove games and cover images.",
+        "Add platforms and genres to each game.",
+        "Track your progress and add ratings or notes.",
+        "Change your profile photo."
       ],
       "tags": [
         "Mobile App",
@@ -1029,13 +1086,14 @@ $('#top').innerHTML=`
     ${S.projects.map((p,projectIndex)=>`${p.upcoming?'<h3 class="project-section-label">Currently working on</h3>':''}<details class="project-detail" name="portfolio-projects">
       <summary class="project-summary"><span>${p.statusLabel?`<span class="project-status">${p.statusLabel}</span>`:''}<b>${p.title}</b><small>${p.summary||''}</small></span><span class="project-toggle" aria-hidden="true">+</span></summary>
       <div class="project-body">
-        ${p.upcoming?'<p class="project-development-note">Coming soon. All gameplay features below are planned and may change during development. Gameplay previews and release details will be shared as the project progresses.</p>':''}
+        ${p.upcoming?'<p class="project-development-note">These features are planned and may change.</p>':''}
         <div class="project-description"><h3>${p.appInfo?'About this app':'About this game'}</h3>${(p.paragraphs||[p.description]).filter(Boolean).map(text=>`<p>${text}</p>`).join('')}</div>
         ${p.gameInfo||p.appInfo?`<h4>${p.appInfo?'App information':'Game information'}</h4><dl class="project-facts">${Object.entries(p.gameInfo||p.appInfo).map(([key,value])=>`<dt>${key.replace(/([A-Z])/g,' $1').replace(/^./,c=>c.toUpperCase())}</dt><dd>${value}</dd>`).join('')}</dl>`:''}
-        ${p.points?.length?(p.upcoming?`<details class="project-roadmap"><summary>Planned gameplay features</summary>${pts(p.points)}</details>`:pts(p.points)):''}
+        ${p.points?.length?(p.upcoming?`<details class="project-roadmap"><summary>Planned features</summary>${pts(p.points)}</details>`:pts(p.points)):''}
         ${p.tags?.length?tags(p.tags):''}
-        ${p.screenshots?.length?`<h4>Screenshots</h4><div class="project-screenshots">${p.screenshots.map((shot,shotIndex)=>`<figure class="project-shot"><button type="button" data-project-index="${projectIndex}" data-project-shot="${shotIndex}" aria-haspopup="dialog" aria-label="Enlarge ${p.title} screenshot ${shotIndex+1}: ${shot.alt}"><img src="${shot.image}" alt="${shot.alt}" loading="lazy" decoding="async"></button><figcaption>${shot.alt}</figcaption></figure>`).join('')}</div>`:''}
+        ${p.playNote?`<p class="project-play-note"><strong>Best played on PC.</strong> ${p.playNote}</p>`:""}
         ${(p.extra||[]).some(link=>link.url)?`<div class="links">${p.extra.filter(link=>link.url).map(link=>`<a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.label}</a>`).join('')}</div>`:''}
+        ${p.screenshots?.length?`<h4>${p.imageHeading||'Screenshots'}</h4><div class="project-screenshots${p.imageHeading?' project-photos':''}">${p.screenshots.map((shot,shotIndex)=>`<figure class="project-shot"><button type="button" data-project-index="${projectIndex}" data-project-shot="${shotIndex}" aria-haspopup="dialog" aria-label="Enlarge ${p.title} photo ${shotIndex+1}: ${shot.alt}"><img src="${shot.image}" alt="${shot.alt}" loading="lazy" decoding="async"></button><figcaption>${shot.label?`<strong class="project-photo-label">${shot.label}</strong>`:''}${shot.alt}</figcaption></figure>`).join('')}</div>`:''}
       </div>
     </details>`).join('')}
   </div>
@@ -1194,7 +1252,7 @@ const showProjectScreenshot=index=>{
   const image=projectImageViewer.querySelector('img');
   image.src=shot.image;
   image.alt=shot.alt;
-  document.getElementById('project-image-title').textContent=project.title+': '+shot.alt;
+  document.getElementById('project-image-title').textContent=project.title+' · '+(shot.label?shot.label+' · ':'')+shot.alt;
   document.getElementById('project-image-count').textContent=(activeProjectShot+1)+' / '+project.screenshots.length;
 };
 document.getElementById('projects').addEventListener('click',e=>{
